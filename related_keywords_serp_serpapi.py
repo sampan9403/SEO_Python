@@ -18,7 +18,7 @@ for keyword in tqdm(keywords, desc="Processing Keywords"):
         "google_domain": "google.com.hk",
         "hl": "en",
         "gl": "hk",
-        "api_key": "e544226a57b6e485eeae6b872df1b64194d27f9dad5eedfb0f2cb0022f1fcefa",
+        "api_key": "7ec738d5269f13638e91542f7419b4122c614ac0e82fcc4ee5afbfd072f910cb",
         "num": 100
     }
 
