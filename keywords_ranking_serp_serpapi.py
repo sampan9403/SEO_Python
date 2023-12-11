@@ -73,7 +73,7 @@ def fetch_serp_data(query, domain):
 # Read keywords and domains from an Excel file
 keywords_df = pd.read_excel("keyword_ranking_list.xlsx")
 keywords = keywords_df["keywords"].tolist()
-domains_list = keywords_df["domains"].apply(lambda x: x.split(','))  # Assuming domains are comma-separated
+domains_list = keywords_df["domains"].apply(lambda x: ['://' + d.strip() for d in x.split(',')])  # Add '://' to domains
 
 # SERPAPI parameters common to all searches
 base_params = {
@@ -89,17 +89,23 @@ base_params = {
 rankings_df = pd.DataFrame(columns=["Query", "Domain", "Position", "Title", "Link", "Link(Chinese)", "Display Link", "Snippet"])
 
 # Use ThreadPoolExecutor to fetch data concurrently
+results_dict = {}
 with concurrent.futures.ThreadPoolExecutor() as executor:
     future_to_query_domain = {}
     for query, domains in zip(keywords, domains_list):
         for domain in domains:
-            future = executor.submit(fetch_serp_data, query, domain.strip())  # Strip to remove any leading/trailing whitespace
+            future = executor.submit(fetch_serp_data, query, domain)
             future_to_query_domain[future] = (query, domain)
 
     for future in tqdm(concurrent.futures.as_completed(future_to_query_domain), total=sum(len(domains) for domains in domains_list), desc="Fetching SERP Data"):
         query, domain = future_to_query_domain[future]
         result = future.result()
-        rankings_df = pd.concat([rankings_df, result], ignore_index=True)
+        results_dict[(query, domain)] = result
+
+# Append results to DataFrame in the order of the input file
+for query, domains in zip(keywords, domains_list):
+    for domain in domains:
+        rankings_df = pd.concat([rankings_df, results_dict[(query, domain)]], ignore_index=True)
 
 # Get current time
 current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
