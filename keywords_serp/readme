@@ -4,11 +4,11 @@ Input用，輸入需要尋找的keywords，輸入方法: 在column "keywords" �
 
 keywords_serp_serpapi_100.py:
 
-以keyword_list_serp.xlsx為input，找出keywords在SERP中顯示的頭100個搜尋結果
+檢查keyword_list_serp.xlsx內列出的keywords，找出keywords在SERP中顯示的頭100個搜尋結果
 
 keywords_serp_serpapi_1.py:
 
-以keyword_list_serp.xlsx為input，找出keywords在SERP中顯示的頭1個搜尋結果
+檢查keyword_list_serp.xlsx內列出的keywords，找出keywords在SERP中顯示的頭1個搜尋結果
 
 Setting:
 - Default location = HK
