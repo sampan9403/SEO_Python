@@ -35,9 +35,11 @@ def fetch_serp_data(query, domain):
         found_domain_result = False
         for i, result in enumerate(organic_results):
             link = result.get("link", "")
-            link_chinese = unquote(link)  # Decode percent-encoded URL to Chinese characters
-
-            if domain in link or domain in link_chinese:
+            link_chinese = unquote(link)
+            
+            # Modify the domain check
+            if f"://{domain}" in link or f".{domain}" in link or \
+                f"://{domain}" in link_chinese or f".{domain}" in link_chinese:
                 found_domain_result = True
                 position = i + 1
                 title = result.get("title", "")
@@ -73,7 +75,7 @@ def fetch_serp_data(query, domain):
 # Read keywords and domains from an Excel file
 keywords_df = pd.read_excel("keyword_ranking_list.xlsx")
 keywords = keywords_df["keywords"].tolist()
-domains_list = keywords_df["domains"].apply(lambda x: ['://' + d.strip() for d in x.split(',')])  # Add '://' to domains
+domains_list = keywords_df["domains"].apply(lambda x: [d.strip() for d in x.split(',')])
 
 # SERPAPI parameters common to all searches
 base_params = {
@@ -107,9 +109,46 @@ for query, domains in zip(keywords, domains_list):
     for domain in domains:
         rankings_df = pd.concat([rankings_df, results_dict[(query, domain)]], ignore_index=True)
 
+# Create a list of unique domains in the order they first appear
+unique_domains_ordered = []
+for domain_list in domains_list:
+    for domain in domain_list:
+        domain_clean = domain.split('://')[-1]
+        if domain_clean not in unique_domains_ordered:
+            unique_domains_ordered.append(domain_clean)
+
+# Prepare the 'Ranking_Only' table with ordered columns and no duplicate keywords
+ranking_only_df = pd.DataFrame(index=pd.unique(keywords), columns=unique_domains_ordered)
+for query, domains in zip(keywords, domains_list):
+    for domain in domains:
+        domain_clean = domain.split('://')[-1]
+        positions = rankings_df[(rankings_df['Query'] == query) & (rankings_df['Domain'] == domain)]['Position'].tolist()
+        positions = [str(pos) for pos in positions if pos != 'no result']
+        ranking_only_df.at[query, domain_clean] = ','.join(positions) if positions else 'NA'
+
 # Get current time
 current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
-# Export the rankings DataFrame to an Excel file with the current time in the filename
-with pd.ExcelWriter(f"keyword_search_rankings_{current_time}.xlsx") as writer:
-    rankings_df.to_excel(writer, index=False)
+# Export the data to Excel
+with pd.ExcelWriter(f"keyword_search_rankings_{current_time}.xlsx", engine='xlsxwriter') as writer:
+    # Export 'Ranking_SERP' Worksheet
+    rankings_df.to_excel(writer, index=False, sheet_name='Ranking_SERP')
+    
+    # Export 'Ranking_Only' Worksheet
+    ranking_only_df.to_excel(writer, startrow=1, startcol=1, sheet_name='Ranking_Only')
+
+    # Access the workbook and the worksheet objects
+    workbook  = writer.book
+    worksheet = writer.sheets['Ranking_Only']
+
+    # Define a format for bold text and center alignment
+    bold_center_format = workbook.add_format({'bold': True, 'align': 'center'})
+
+    # Write "keywords\domains" in the top-left cell (B2)
+    worksheet.write('B2', 'keywords\\domains', bold_center_format)
+
+    # Adjust the column widths
+    for idx, col in enumerate(ranking_only_df.columns):
+        # Determine the maximum width of the column based on the cell contents
+        column_len = max(ranking_only_df[col].astype(str).map(len).max(), len(str(col))) + 2
+        worksheet.set_column(idx + 1, idx + 1, column_len)  # Set column width
