@@ -1,0 +1,22 @@
+keyword_list_autocomplete.xlsx:
+
+Input用，輸入需要尋找的keywords，輸入方法: 在column "keywords" 下每一格代表一個keywords
+
+autocomplete_keywords_serp_serpapi.py:
+
+檢查keyword_list_autocomplete.xlsx內列出的keywords，找出keywords在搜尋引擎中出現的autocomplete keywords，並中顯示每一個autocomplete keyword的頭100個搜尋結果 (包括keyword本身)
+
+備註:
+每檢查1個keyword，代表會出現額外15個keywords的SERP，因此請小心使用
+
+Setting:
+- Default location = HK
+
+"Query": 代表 input keyword
+"Autocomplete Query": 代表 input keyword 的 autocomplete keywords 
+"Position": 代表 ranking
+"Title": 代表 Title tag
+"Link": 代表 URL
+"Link(Chinese)": 代表 URL (Decode percent-encoded URL to Chinese characters) 
+"Display Link": 代表 顯示URL的文字
+"Snippet": 代表 Description (並非exactly meta description，但有機會為部份meta description)
