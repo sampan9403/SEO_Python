@@ -22,7 +22,9 @@ pip install openpyxl
 6. 在Command Propmt進入python program所放置的路徑內，輸入指令: cd {path}
 
 例子: cd C:\Users\user\Desktop\folder
+
 7. 執行python program (假設已放入必須資料在python program內)，輸入指令: python {python program name}，python program name 需要連同file type name (.py)
 
 例子: python python123.py
+
 8. 結果會出現在同一folder內
