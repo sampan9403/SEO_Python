@@ -80,8 +80,7 @@ domains_list = keywords_df["domains"].apply(lambda x: [d.strip() for d in x.spli
 # SERPAPI parameters common to all searches
 base_params = {
     "location": "Hong Kong",
-    "google_domain": "google.com.hk",
-    "hl": "en",
+    "google_domain": "google.com",
     "gl": "hk",
     "api_key": "7ec738d5269f13638e91542f7419b4122c614ac0e82fcc4ee5afbfd072f910cb",
     "num": 100  # Adjust this number as needed
