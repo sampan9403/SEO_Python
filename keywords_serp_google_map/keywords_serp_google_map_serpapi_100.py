@@ -16,6 +16,8 @@ def fetch_data(keyword):
             "q": keyword,
             "type": "search",
             "ll": "@22.3193039,114.1693611,12z",
+            "hl": "zh-tw",
+            "google_domain": "google.com.hk",
             "start": offset,  # Set the offset for pagination
             "api_key": "7ec738d5269f13638e91542f7419b4122c614ac0e82fcc4ee5afbfd072f910cb"
         }
