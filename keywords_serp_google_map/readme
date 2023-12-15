@@ -10,6 +10,8 @@ keywords_serp_google_map_serpapi_100.py:
 
 Setting:
 - Default location = HK
+- Default domain = google.com.hk
+- Default language = zh-tw
 
 Output:
 Worksheet: "SERP" - 在Google maps，keywords的頭100個搜尋結果
