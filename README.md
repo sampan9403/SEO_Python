@@ -18,6 +18,8 @@ pip install tqdm
 
 pip install openpyxl
 
+pip install xlsxwriter
+
 5. 將python program (每個file內的全部檔案)從Github下載後，在桌面新增folder，將全部下載資料放入folder內，需要為同一路徑
 6. 在Command Propmt進入python program所放置的路徑內，輸入指令: cd {path}
 
