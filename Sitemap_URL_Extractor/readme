@@ -1,0 +1,14 @@
+sitemaps.xlsx:
+
+Input用，輸入sitemap url (xml)，輸入方法: 在column "sitemaps"下每一格代表一個sitemap，每一行為一組單位
+
+Sitemap_URL_Extractor.py:
+
+Export結果包括:
+每個sitemap所包括的urls及其Last Modified
+如多於30,000 urls，將會每30,000 urls分割至新分頁
+
+Exported File Setting:
+"URL": 包括在sitemap內的urls
+"Last Modified": 最後更新日期
+"Sitemap": 該URL所在的sitemap
