@@ -1,0 +1,16 @@
+url_canonical.xlsx:
+
+Input用，輸入urls，輸入方法: 在column "original url" 下每一格代表一個url，每一行為一組單位
+
+canonical_url_checker.py:
+
+Export結果包括:
+-檢查urls的HTTP Status，找出該url的canonical tag，檢查canonical tag是否跟原本的url相同
+
+Exported File Header:
+"original url": input的url
+"redirect to": original url最終到達的url (如果沒有設定redirection，則結果理應跟"original url"相同
+"status code": HTTP Status (200,404 etc...)
+"canonical url": canonical url，如果沒有則顯示空格
+"Same for original and canonical?": 檢查original url與canonical url是否相同
+
