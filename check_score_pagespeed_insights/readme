@@ -1,0 +1,26 @@
+url_list_pagespeed.xlsx:
+
+Input用，輸入urls，在column "url" 下每一格代表一個url，每一行為一組單位
+
+check_score_pagespeed_insights.py:
+
+Export結果包括:
+經PageSpeed Insights (Lighthouse)檢查url的評分，滿足以下條件
+-同一條url會檢查 Mobile及Desktop version
+-Performance Score
+-5 項metrics的評分 FCP, LCP, TBT, CLS, Speed-index
+-3 個Top issues的建議，以Estimated Savings為標準
+
+Expoerted File Setting:
+"url": 所檢查的url
+"strategy": Mobile 或 Desktop
+"score_of_performance": 綜合評分
+"first-contentful-paint": FCP performance
+"largest-contentful-paint": LCP performance
+"total-blocking-time": TBT performance
+"cumulative-layout-shift": CLS performance
+"speed-index": Speed Index performance
+"issue 1": First issues and description 
+"issue 2": Second issues and description
+"issue 3": Third issues and description
+"check_date": Crawling Date
